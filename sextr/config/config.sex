@@ -1,0 +1,53 @@
+#-------------------------------- Catalog ------------------------------------
+CATALOG_NAME	    catalogo.fits
+PARAMETERS_NAME     config/default.params
+CATALOG_TYPE        FITS_1.0                            # 'ASCII_HEAD','ASCII','FITS_1.0' or 'FITS_LDAC'
+
+#------------------------------- Extraction ----------------------------------
+DETECT_TYPE	    CCD	                                # 'CCD' or 'PHOTO' (*)
+DETECT_MINAREA      10                                 # minimum number of pixels above threshold
+DETECT_THRESH       1.5  	                            # <sigmas> or <threshold>,<ZP> in mag.arcsec-2
+ANALYSIS_THRESH	    1.5                                 # <sigmas> or <threshold>,<ZP> in mag.arcsec-2
+FILTER	            Y                                   # apply filter for detection ("Y" or "N")?
+FILTER_NAME         config/gauss_5.0_9x9.conv
+DEBLEND_NTHRESH	    64	                                # Number of deblending sub-thresholds
+DEBLEND_MINCONT	    0.001                               # Minimum contrast parameter for deblending
+CLEAN		    Y                                   # Clean spurious detections? (Y or N)?
+CLEAN_PARAM         1.0                                  # Cleaning efficiency
+MASK_TYPE	    CORRECT                             # Blank detected objects (Y or N)?
+
+#------------------------------ Photometry -----------------------------------
+PHOT_APERTURES      5.45, 10.90  # MAG_APER aperture diameter(s) in pixels
+PHOT_AUTOPARAMS     3.0, 1.82                            # MAG_AUTO parameters: <Kron_fact>,<min_radius>
+PHOT_PETROPARAMS    2.0, 2.73
+PHOT_FLUXFRAC       0.2,0.5,0.7,0.9                     # radii containing 100*x% of the light
+SATUR_LEVEL	    1943.166241347                             # level (in ADUs) at which arises saturation
+MAG_ZEROPOINT	    24.0                           # magnitude zero-point
+MAG_GAMMA	    4.0                                 # gamma of emulsion (for photographic scans)
+GAIN		    94.76229666794                              # detector gain in e-/ADU.
+PIXEL_SCALE	    0.55                                # size of pixel in arcsec (0=use FITS WCS info).
+
+#------------------------- Star/Galaxy Separation ----------------------------
+SEEING_FWHM	    1.453                            # stellar FWHM in arcsec
+
+#------------------------------ Background -----------------------------------
+BACK_SIZE           524                                  # Background mesh: <size> or <width>,<height>
+BACK_FILTERSIZE     3                                   # Background filter: <size> or <width>,<height>
+BACKPHOTO_TYPE	    GLOBAL                               # can be 'GLOBAL' or 'LOCAL' (*)
+BACK_TYPE           MANUAL           # AUTO or MANUAL
+BACK_VALUE          0.0           # Default background value in MANUAL mode
+ 
+#------------------------------ Check Image ----------------------------------
+ 
+CHECKIMAGE_TYPE APERTURES            # can be one of "NONE", "BACKGROUND",
+                                # "MINIBACKGROUND", "-BACKGROUND", "OBJECTS",
+                                # "-OBJECTS", "SEGMENTATION", "APERTURES",
+                                # or "FILTERED"
+CHECKIMAGE_NAME aper.fits      # Filename for the check-image
+#--------------------- Memory (change with caution!) -------------------------
+MEMORY_OBJSTACK  30000                               # number of objects in stack
+MEMORY_PIXSTACK  3000000                              # number of pixels in stack
+MEMORY_BUFSIZE	 2048                                 # number of lines in buffer
+
+
+

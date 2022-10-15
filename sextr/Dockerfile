@@ -19,9 +19,5 @@ RUN apt-get -y install libatlas-base-dev liblapack-dev libblas-dev
 RUN apt-get -y install -y fftw3-dev
 RUN git clone https://github.com/Schwarzam/sextractor.git
 RUN cd ./sextractor && sh autogen.sh && ./configure && make && make install
-RUN pip3 install astropy numpy scipy
-
 
 COPY . .
-
-CMD ["python3", "runner.py"]

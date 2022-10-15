@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  sextractor:
+    build: 
+      context: ./sextr
+
+    command: python3 runner.py
+
+    volumes:
+        - ./sextr/shared/:/shared/

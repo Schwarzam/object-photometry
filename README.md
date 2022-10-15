@@ -37,12 +37,18 @@ python3 main.py
 Run join_tables.py, pass the ra, dec and size of object to locate result folder, get center object, join tables and produce final table result. 
 The input here should be *RA_DEC_size*, something like:
 
-- 0.1_0.1_250
+- 0.1_0.1_250 (the same name as the result folder inside sextr/shared/processed_folder)
 
 Run script by:
 ```
 python3 join_tables.py
 ```
+
+<br>
+<br>
+
+All results may be found at:
+sextr/shared/processed_folder
 
 <br>
 <br>

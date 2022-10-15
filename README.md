@@ -1,6 +1,6 @@
 ## single object photometry
 
-![](https://splus.cloud/images/SiglaExtenso_Colorido1_TextoAzulEscuro.png)
+![](https://splus.cloud/images/splus_logo_fundo_branco.jpg)
 
 ### Get photometry of a single object using splusdata
 

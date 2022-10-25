@@ -11,6 +11,7 @@ from astropy import wcs
 from astropy import coordinates as coord
 from astropy import units as u
 
+import sys
 
 folder = 'sextr/shared/processed_folder'
 
@@ -29,7 +30,16 @@ def get_files_in_folder(folder):
     return files
 
 def main():
-    folder_name = input('folder name (Ex: RA_DEC_size): ')
+    name = None
+    if len(sys.argv) > 1:
+        folder_name = sys.argv[1].strip()
+    else:
+        folder_name = input('folder name (Ex: RA_DEC_size): ')
+
+    if len(sys.argv) > 2:
+        name = sys.argv[2]
+    
+    print("Folder name: ", folder_name)
     target_folder = join(folder, folder_name, 'catalogs')
     files = get_files_in_folder(target_folder)
 
@@ -58,7 +68,12 @@ def main():
         stack.append(tabs[tab])
     
     res = vstack(stack)
-    res.write(join(folder, folder_name, 'final_table.fits'))
+    if name:
+        res.write(join(folder, folder_name, f'{name}.fits'))
+    else:
+        res.write(join(folder, folder_name, f'ftable_{folder_name}.fits'))
+
+
 
     print('Done!')
 if __name__ == '__main__':

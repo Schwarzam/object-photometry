@@ -34,7 +34,7 @@ python3 main.py
 
 <br>
 
-### 3rd step
+### 3rd step (Not needed if inputing tables on step 2)
 
 Run join_tables.py, pass the ra, dec and size of object to locate result folder, get center object, join tables and produce final table result. 
 The input here should be *RA_DEC_size*, something like:

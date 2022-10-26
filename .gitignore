@@ -1,3 +1,5 @@
+sextr/shared/processed_folder/*
+sextr/shared/processing_folder/*
 
 __pycache__
 .DS_Store

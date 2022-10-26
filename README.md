@@ -22,6 +22,8 @@ If you have sextractor installed just leave sextr/runner.py running aside. It's 
 cd sextr && runner.py
 ```
 
+*Leave this step running on one tab, then open another terminal tab/window to step 2.*
+
 <br>
 
 ### 2nd step: 

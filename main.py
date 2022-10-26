@@ -6,7 +6,7 @@ import time
 conn = splusdata.connect()
 
 bands = ['R', 'G', 'I', 'U', 'Z', 'F378', 'F395', 'F410', 'F430', 'F515', 'F660', 'F861']
-processing_folder = 'sextr/shared/processing_folder'
+processing_folder = 'sextr/shared/processing_folder/'
 
 WAIT_TIME = 10
 

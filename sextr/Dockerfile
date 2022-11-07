@@ -6,7 +6,7 @@ RUN apt install -y python3 python3-pip
 
 
 RUN apt install -y git
-
+RUN pip3 install astropy
 
 RUN apt install -y autoconf automake libtool 
 RUN apt install -y make

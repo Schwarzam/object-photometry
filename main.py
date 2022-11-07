@@ -48,6 +48,10 @@ def insert_manual():
         cut.writeto(os.path.join(processing_folder, f'{ra}_{dec}_{size}_{band}.fits.fz'), overwrite=True)
         print(f"downloaded {ra} {dec} {size} {band}")
     
+    f = open(os.path.join(processing_folder, f'done'), 'w')
+    f.write(' ')
+    f.close()
+    
     print(f"Wainting to sextractor to finish for {WAIT_TIME}")
     time.sleep(WAIT_TIME)
     os.system(f"python3 join_tables.py {ra}_{dec}_{size}")

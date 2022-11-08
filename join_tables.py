@@ -61,7 +61,7 @@ def main():
                 continue
 
             tabs[band] = tabs[band][tabs[band]['NUMBER'] == tabs[band][idx]['NUMBER']]
-        tabs[band]['FILTER'] = band
+            tabs[band]['FILTER'] = band
 
     stack = []
     for tab in tabs:

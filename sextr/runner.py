@@ -90,6 +90,10 @@ def run_sextractor():
             detection_file = detection_file + '.fz'
             system(f"mv {detection_file} {join(proc_folder, 'images', 'detection_image.fits.fz')}")
 
+            f = open(join(TARGET_FOLDER, f'sextr_done'), 'w')
+            f.write(' ')
+            f.close()
+            
             
 
             

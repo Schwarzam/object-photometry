@@ -3,12 +3,32 @@ import os
 import pandas as pd
 import time
 
+from os import listdir, mkdir
+from os.path import isfile, join
+
+
 conn = splusdata.connect()
 
 bands = ['R', 'G', 'I', 'U', 'Z', 'F378', 'F395', 'F410', 'F430', 'F515', 'F660', 'F861']
 processing_folder = 'sextr/shared/processing_folder/'
 
-WAIT_TIME = 10
+def get_files_in_folder(folder):
+    files = [f for f in listdir(folder) if isfile(join(folder, f))]
+    return files
+
+def wait_sextr():
+    while True:
+        time.sleep(0.2)
+        files = get_files_in_folder(processing_folder)
+        if 'sextr_done' in files:
+            os.system(f'rm {join(processing_folder, "sextr_done")}')
+        
+            break
+
+def clear_processing():
+    files = get_files_in_folder(processing_folder)
+    for file in files:
+        os.system(f'rm {join(processing_folder, file)}')
 
 def insert_table():
     print(" -- insert table path -- ")
@@ -19,22 +39,30 @@ def insert_table():
         size = input('size: ')
 
     for key, value in df.iterrows():
-        for band in bands:
-            ra = value['RA']
-            dec = value['DEC']
-            if 'size' in df.columns:
-                size = value['size']
+        try:
+            for band in bands:
+                ra = value['RA']
+                dec = value['DEC']
+                if 'size' in df.columns:
+                    size = value['size']
 
-            cut = conn.get_cut(ra, dec, size, band)
-            cut.writeto(os.path.join(processing_folder, f'{ra}_{dec}_{size}_{band}.fits.fz'), overwrite=True)
-            print(f"downloaded {ra} {dec} {size} {band}")
+                cut = conn.get_cut(ra, dec, size, band)
+                cut.writeto(os.path.join(processing_folder, f'{ra}_{dec}_{size}_{band}.fits.fz'), overwrite=True)
+                print(f"downloaded {ra} {dec} {size} {band}")
+                
+        except Exception as e:
+            print(e)
+            clear_processing()
+            print(f"Error on {ra} {dec}")
+            continue
         
-        print(f"Wainting to sextractor to finish for {WAIT_TIME}")
-        time.sleep(WAIT_TIME)
-        if 'ID' in df.columns:
-            os.system(f"python3 join_tables.py {ra}_{dec}_{size} {value['ID'].strip()}")
-        else:
-            os.system(f"python3 join_tables.py {ra}_{dec}_{size}")
+        f = open(os.path.join(processing_folder, f'done'), 'w')
+        f.write(' ')
+        f.close()
+
+        print(f"Wainting to sextractor to finish.")
+        wait_sextr()
+        os.system(f"python3 join_tables.py {ra}_{dec}_{size}")
             
 def insert_manual():
     print(" -- new object -- ")
@@ -52,12 +80,13 @@ def insert_manual():
     f.write(' ')
     f.close()
     
-    print(f"Wainting to sextractor to finish for {WAIT_TIME}")
-    time.sleep(WAIT_TIME)
+    print(f"Wainting to sextractor to finish")
+    wait_sextr()
     os.system(f"python3 join_tables.py {ra}_{dec}_{size}")
     print("")
 
 while True:
+    clear_processing()
     opt = input("""
     1 - Insert one object.
     2 - Insert table. 

@@ -1,6 +1,7 @@
+# Author: Gustavo Schwarz - gustavo.b.schwarz@gmail.com
+# This script was written to the S-PLUS community.
+
 from astropy.table import Table, vstack
-
-
 from os import system
 
 from os import listdir, mkdir

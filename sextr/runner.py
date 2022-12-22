@@ -3,9 +3,14 @@ from os import system
 from os import listdir, mkdir
 from os.path import isfile, join
 
+import pandas as pd
 import time
 
 from astropy.io import fits
+
+from wrappersoperations import readWriteCats
+
+ZPS = pd.read_csv('shared/config/iDR4_zero-points.csv')
 
 TARGET_FOLDER = 'shared/processing_folder'
 PROCESSED_FOLDER = 'shared/processed_folder'
@@ -79,11 +84,31 @@ def run_sextractor():
                 
                 cat_name = join(proc_folder, "catalogs", f"{band}.fits")
                 aper_name = join(proc_folder, "aper_images", f"{band}.fits")
+                
+                # --- CHANGING SEXTRACTOR CONFIG ---
+                sextR = readWriteCats()
+                sextR.read_config('shared/config/config.sex')
+
+                header = fits.getheader(target_file)
+
+                sextR.config['SATUR_LEVEL']['value'] = header['SATURATE'] 
+                sextR.config['GAIN']['value'] = header['GAIN']
+
+                sextR.config['MAG_ZEROPOINT']['value'] = float(ZPS[ZPS['Field'] == header['OBJECT'].replace('_', '-')]['ZP_' + header['FILTER'].lower().replace('f', 'J0')])
+
+                for i in header:
+                    if 'FWHMSEXT' in i:
+                        sextR.config['SEEING_FWHM']['value'] = header[i]
+
+                sextR.write_file('shared/config/tmp.sex')
+                # ------ // -------
+
                 if target_file.endswith(".fits"):
-                    code = system(f'sex {detection_file},{target_file} -c shared/config/config.sex -CATALOG_NAME {cat_name} -CHECKIMAGE_NAME {aper_name}')
+                    code = system(f'sex {detection_file},{target_file} -c shared/config/tmp.sex -CATALOG_NAME {cat_name} -CHECKIMAGE_NAME {aper_name}')
                     print(f'sextractor ran with code {code}.')
                 
                 system(f'rm {target_file}')
+                system(f'rm shared/config/tmp.sex')
             
             system(f'fpack {detection_file}')
             system(f'rm {detection_file}')

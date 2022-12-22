@@ -58,6 +58,16 @@ python3 join_tables.py
 All results may be found at:
 sextr/shared/processed_folder
 
+
+#### Minors:
+
+If the program isn't producing the final table, you may manually run replacing the values:
+
+```
+python3 join_tables.py {RA}_{DEC}_{SIZE}
+```
+
+
 <br>
 <br>
 Written by Gustavo Schwarz 

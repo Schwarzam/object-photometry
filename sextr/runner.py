@@ -10,6 +10,7 @@ from astropy.io import fits
 
 from wrappersoperations import readWriteCats
 
+
 ZPS = pd.read_csv('shared/config/iDR4_zero-points.csv')
 
 TARGET_FOLDER = 'shared/processing_folder'
@@ -43,8 +44,10 @@ def get_detection_image(file):
 
 def run_sextractor():
     while True:
+        print('Wainting on main.py')
         time.sleep(0.2)
         to_process = get_files_in_folder(TARGET_FOLDER)
+        print(to_process)
         detection_file = None
         
         if 'done' in to_process:

@@ -14,12 +14,20 @@ conn = splusdata.connect()
 
 bands = ['R', 'G', 'I', 'U', 'Z', 'F378', 'F395', 'F410', 'F430', 'F515', 'F660', 'F861']
 processing_folder = 'sextr/shared/processing_folder/'
+processed_folder = 'sextr/shared/processed_folder/'
+
+# If you want to keep the final catalogs, images and aper folders, change the values below to True
+KEEP_FINAL_CATALOS = True
+KEEP_FINAL_IMAGES = True
+KEEP_FINAL_APER = True
 
 def get_files_in_folder(folder):
+    """Get all files in a folder"""
     files = [f for f in listdir(folder) if isfile(join(folder, f))]
     return files
 
 def wait_sextr():
+    """Wait for sextractor to finish"""
     while True:
         time.sleep(0.2)
         files = get_files_in_folder(processing_folder)
@@ -29,6 +37,7 @@ def wait_sextr():
             break
 
 def clear_processing():
+    """Clears processing folder"""
     files = get_files_in_folder(processing_folder)
     for file in files:
         os.system(f'rm {join(processing_folder, file)}')
@@ -66,6 +75,14 @@ def insert_table():
         print(f"Wainting to sextractor to finish.")
         wait_sextr()
         os.system(f"python3 join_tables.py {ra}_{dec}_{size}")
+
+        if not KEEP_FINAL_CATALOS:
+            os.system(f'rm -rf {join(processed_folder, f"{ra}_{dec}_{size}", "catalogs")}')
+        if not KEEP_FINAL_IMAGES:
+            os.system(f'rm -rf {join(processed_folder, f"{ra}_{dec}_{size}", "images")}')
+        if not KEEP_FINAL_APER: 
+            os.system(f'rm -rf {join(processed_folder, f"{ra}_{dec}_{size}", "aper")}')
+
             
 def insert_manual():
     print(" -- new object -- ")
@@ -83,9 +100,18 @@ def insert_manual():
     f.write(' ')
     f.close()
     
-    print(f"Wainting to sextractor to finish")
+    print(f"Waiting to sextractor to finish")
     wait_sextr()
+
     os.system(f"python3 join_tables.py {ra}_{dec}_{size}")
+
+    if not KEEP_FINAL_CATALOS:
+        os.system(f'rm -rf {join(processed_folder, f"{ra}_{dec}_{size}", "catalogs")}')
+    if not KEEP_FINAL_IMAGES:
+        os.system(f'rm -rf {join(processed_folder, f"{ra}_{dec}_{size}", "images")}')
+    if not KEEP_FINAL_APER: 
+        os.system(f'rm -rf {join(processed_folder, f"{ra}_{dec}_{size}", "aper")}')
+
     print("")
 
 while True:

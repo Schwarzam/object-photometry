@@ -17,7 +17,7 @@ processing_folder = 'sextr/shared/processing_folder/'
 processed_folder = 'sextr/shared/processed_folder/'
 
 # If you want to keep the final catalogs, images and aper folders, change the values below to True
-KEEP_FINAL_CATALOS = True
+KEEP_FINAL_CATALOGS = True
 KEEP_FINAL_IMAGES = True
 KEEP_FINAL_APER = True
 
@@ -76,7 +76,7 @@ def insert_table():
         wait_sextr()
         os.system(f"python3 join_tables.py {ra}_{dec}_{size}")
 
-        if not KEEP_FINAL_CATALOS:
+        if not KEEP_FINAL_CATALOGS:
             os.system(f'rm -rf {join(processed_folder, f"{ra}_{dec}_{size}", "catalogs")}')
         if not KEEP_FINAL_IMAGES:
             os.system(f'rm -rf {join(processed_folder, f"{ra}_{dec}_{size}", "images")}')
@@ -105,7 +105,7 @@ def insert_manual():
 
     os.system(f"python3 join_tables.py {ra}_{dec}_{size}")
 
-    if not KEEP_FINAL_CATALOS:
+    if not KEEP_FINAL_CATALOGS:
         os.system(f'rm -rf {join(processed_folder, f"{ra}_{dec}_{size}", "catalogs")}')
     if not KEEP_FINAL_IMAGES:
         os.system(f'rm -rf {join(processed_folder, f"{ra}_{dec}_{size}", "images")}')

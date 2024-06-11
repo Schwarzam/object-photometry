@@ -10,7 +10,7 @@ from os import listdir, mkdir
 from os.path import isfile, join
 
 
-conn = splusdata.connect()
+conn = splusdata.Core()
 
 bands = ['R', 'G', 'I', 'U', 'Z', 'F378', 'F395', 'F410', 'F430', 'F515', 'F660', 'F861']
 processing_folder = 'sextr/shared/processing_folder/'
@@ -58,7 +58,7 @@ def insert_table():
                 if 'size' in df.columns:
                     size = value['size']
 
-                cut = conn.get_cut(ra, dec, size, band)
+                cut = conn.stamp(ra, dec, size, band)
                 cut.writeto(os.path.join(processing_folder, f'{ra}_{dec}_{size}_{band}.fits.fz'), overwrite=True)
                 print(f"downloaded {ra} {dec} {size} {band}")
                 
@@ -85,14 +85,14 @@ def insert_table():
 
             
 def insert_manual():
-    print(" -- new object -- ")
     ra = input("RA: ").strip()
     dec = input("DEC: ").strip()
-
     size = input('size: ')
     
     for band in bands:
-        cut = conn.get_cut(ra, dec, size, band)
+        print(f"Downloading {ra} {dec} {size} {band}")
+        cut = conn.stamp(ra, dec, size, band)
+        print(f"Downloaded {ra} {dec} {size} {band}")
         cut.writeto(os.path.join(processing_folder, f'{ra}_{dec}_{size}_{band}.fits.fz'), overwrite=True)
         print(f"downloaded {ra} {dec} {size} {band}")
     

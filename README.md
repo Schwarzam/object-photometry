@@ -16,10 +16,10 @@ docker-compose up --build
 This will run the container. 
 
 ----
-If you have sextractor installed just leave sextr/runner.py running aside. It's important to run from the folder because of the relative paths:
+If you have sextractor installed and CFITSIO (fpack and funpack commands) just leave sextr/runner.py running aside. It's important to run from the folder because of the relative paths:
 
 ```
-cd sextr && runner.py
+cd sextr && python3 runner.py
 ```
 
 <br>
